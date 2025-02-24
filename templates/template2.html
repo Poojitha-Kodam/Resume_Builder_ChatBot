@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ name }}'s Resume</title>
+    <style>
+        body { font-family: 'Times New Roman', serif; margin: 0; padding: 20px; background: #fff; color: #333; }
+        .container { max-width: 700px; margin: auto; padding: 20px; border: 1px solid #ddd; }
+        h1, h2 { color: black; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        .section { margin-bottom: 15px; }
+        ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ name }}</h1>
+        <p><strong>{{ title }}</strong></p>
+
+        <h2>Summary</h2>
+        <p>Experienced {{ title }} specializing in {{ skills[0] }}, {{ skills[1] }}, and {{ skills[2] }}. Adept at driving innovation and ensuring project success.</p>
+
+        <h2>Work Experience</h2>
+        {% for job in workExperience %}
+        <p><strong>{{ job.title }}</strong>, {{ job.company }} ({{ job.dates }})</p>
+        <ul>
+            <li>{{ job.description | default('Delivered projects on time and under budget.') }}</li>
+        </ul>
+        {% endfor %}
+
+        <h2>Education</h2>
+        {% for edu in education %}
+        <p><strong>{{ edu.degree }}</strong> - {{ edu.school }} ({{ edu.dates }})</p>
+        <p>{{ edu.description | default('Completed coursework in industry-relevant topics.') }}</p>
+        {% endfor %}
+
+        <h2>Skills</h2>
+        <ul>
+            {% for skill in skills %}
+            <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Certifications</h2>
+        <ul>
+            {% for cert in certifications %}
+            <li>{{ cert | default('Certified Scrum Master (CSM)') }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Projects</h2>
+        {% for project in projects %}
+        <p><strong>{{ project.name }}</strong>: {{ project.description | default('Implemented solutions with measurable business impact.') }}</p>
+        {% endfor %}
+
+        <h2>Languages</h2>
+        <p>{{ languages | default('English (Fluent), French (Basic)') }}</p>
+
+        <h2>Achievements</h2>
+        <p>{{ achievements | default('Recognized for leadership in high-priority projects.') }}</p>
+    </div>
+</body>
+</html>

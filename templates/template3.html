@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ name }}'s Resume</title>
+    <style>
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 20px; background: #eee; color: #333; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); }
+        h1 { text-align: center; color: #222; }
+        h2 { border-bottom: 2px solid #007bff; padding-bottom: 5px; }
+        p, ul { margin: 5px 0; }
+        ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ name }} - {{ title }}</h1>
+
+        <h2>Contact Information</h2>
+        <p>Email: {{ contactInfo.email }} | Phone: {{ contactInfo.phone }}</p>
+        <p>LinkedIn: <a href="{{ contactInfo.linkedin }}">Profile</a> | GitHub: <a href="{{ contactInfo.github }}">Profile</a></p>
+
+        <h2>Summary</h2>
+        <p>{{ summary | default('Highly motivated professional with expertise in delivering high-impact projects while collaborating with cross-functional teams.') }}</p>
+
+        <h2>Work Experience</h2>
+        {% for job in workExperience %}
+        <p><strong>{{ job.title }}</strong> at {{ job.company }} ({{ job.dates }})</p>
+        <ul><li>{{ job.description | default('Managed cross-functional projects, ensuring timely delivery.') }}</li></ul>
+        {% endfor %}
+
+        <h2>Education</h2>
+        {% for edu in education %}
+        <p><strong>{{ edu.degree }}</strong> at {{ edu.school }} ({{ edu.dates }})</p>
+        <p>{{ edu.description | default('Completed relevant coursework and projects.') }}</p>
+        {% endfor %}
+
+        <h2>Skills</h2>
+        <ul>
+            {% for skill in skills %}
+            <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Certifications</h2>
+        <ul>
+            {% for cert in certifications %}
+            <li>{{ cert | default('AWS Certified Solutions Architect') }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Projects</h2>
+        {% for project in projects %}
+        <p><strong>{{ project.name }}</strong>: {{ project.description | default('Led project delivery, ensuring 100% client satisfaction.') }}</p>
+        {% endfor %}
+
+        <h2>Languages</h2>
+        <p>{{ languages | default('English (Fluent), German (Intermediate)') }}</p>
+
+        <h2>Achievements</h2>
+        <p>{{ achievements | default('Received Employee of the Year Award for outstanding contributions.') }}</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ name }}'s Resume</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f8f8f8; color: #333; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h1, h2 { color: #007bff; }
+        .section { margin-bottom: 20px; }
+        .header { text-align: center; padding-bottom: 10px; border-bottom: 2px solid #007bff; }
+        .skills span, .certifications span { background: #007bff; color: white; padding: 5px 10px; margin: 5px; border-radius: 5px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ name }}</h1>
+            <p>{{ title }}</p>
+        </div>
+
+        <div class="section">
+            <h2>Professional Summary</h2>
+            <p>Results-driven {{ title }} with expertise in {{ skills[0] }}, {{ skills[1] }}, and {{ skills[2] }}. Adept at driving business success through strategic initiatives and collaborative teamwork.</p>
+        </div>
+
+        <div class="section">
+            <h2>Work Experience</h2>
+            {% for job in workExperience %}
+            <p><strong>{{ job.title }}</strong> at {{ job.company }} ({{ job.dates }})</p>
+            <ul>
+                <li>{{ job.description | default('Implemented innovative solutions, enhancing productivity by 20%.') }}</li>
+            </ul>
+            {% endfor %}
+        </div>
+
+        <div class="section">
+            <h2>Education</h2>
+            {% for edu in education %}
+            <p><strong>{{ edu.degree }}</strong> at {{ edu.school }} ({{ edu.dates }})</p>
+            <p>{{ edu.description | default('Focused on industry-relevant skills and hands-on projects.') }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="section">
+            <h2>Skills</h2>
+            <div class="skills">
+                {% for skill in skills %}
+                <span>{{ skill }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Certifications</h2>
+            <ul>
+                {% for cert in certifications %}
+                <li>{{ cert | default('Certified Professional in Project Management (PMP)') }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Projects</h2>
+            {% for project in projects %}
+            <p><strong>{{ project.name }}</strong>: {{ project.description | default('Successfully led project delivery, ensuring 100% on-time completion.') }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="section">
+            <h2>Languages</h2>
+            <p>{{ languages | default('English (Fluent), Spanish (Intermediate)') }}</p>
+        </div>
+
+        <div class="section">
+            <h2>Achievements</h2>
+            <p>{{ achievements | default('Recipient of Employee Excellence Award for outstanding performance.') }}</p>
+        </div>
+    </div>
+</body>
+</html>

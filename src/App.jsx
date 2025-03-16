@@ -15,6 +15,8 @@ export default function ChatbotUI() {
   const [downloadLink, setDownloadLink] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState(1);
   const [templates, setTemplates] = useState([]);
+  const [workExperiences, setWorkExperiences] = useState([{ id: 1 }]);
+  const [educations, setEducations] = useState([{ id: 1 }]);
 
   // Load templates
   useEffect(() => {
@@ -40,8 +42,33 @@ export default function ChatbotUI() {
     alert(`Selected template: Template ${id}`);
   };
 
+  const addWorkExperience = () => {
+    setWorkExperiences([
+      ...workExperiences,
+      { id: workExperiences.length + 1 },
+    ]);
+  };
+
+  const addEducation = () => {
+    setEducations([...educations, { id: educations.length + 1 }]);
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    const workExperienceData = workExperiences.map((_, index) => ({
+      title: e.target[`jobTitle${index}`].value,
+      company: e.target[`company${index}`].value,
+      dates: e.target[`workDates${index}`].value,
+      description: e.target[`workDescription${index}`].value,
+    }));
+
+    const educationData = educations.map((_, index) => ({
+      degree: e.target[`degree${index}`].value,
+      school: e.target[`school${index}`].value,
+      dates: e.target[`eduDates${index}`].value,
+      description: e.target[`eduDescription${index}`].value,
+    }));
 
     const formData = {
       template: selectedTemplate,
@@ -55,22 +82,8 @@ export default function ChatbotUI() {
         github: e.target.github.value,
       },
       summary: e.target.summary.value,
-      workExperience: [
-        {
-          title: e.target.jobTitle.value,
-          company: e.target.company.value,
-          dates: e.target.workDates.value,
-          description: e.target.workDescription.value,
-        },
-      ],
-      education: [
-        {
-          degree: e.target.degree.value,
-          school: e.target.school.value,
-          dates: e.target.eduDates.value,
-          description: e.target.eduDescription.value,
-        },
-      ],
+      workExperience: workExperienceData,
+      education: educationData,
       skills: e.target.skills.value.split(","),
       certifications: e.target.certifications.value.split(","),
       projects: [
@@ -194,54 +207,81 @@ export default function ChatbotUI() {
               <h3>Professional Summary</h3>
               <textarea
                 name="summary"
-                placeholder="Write a brief professional summary..."
+                defaultValue="Results-driven [Job Title] with [X years] of experience in [Industry]. Proven track record of delivering [key achievements]. Adept at [key skills], collaborating with cross-functional teams, and driving project success. Seeking to leverage expertise to contribute to [company or role-specific goal]."
                 required
               ></textarea>
 
               <h3>Work Experience</h3>
-              <input
-                name="jobTitle"
-                type="text"
-                placeholder="Job Title"
-                required
-              />
-              <input
-                name="company"
-                type="text"
-                placeholder="Company Name"
-                required
-              />
-              <input
-                name="workDates"
-                type="text"
-                placeholder="Employment Dates"
-                required
-              />
-              <textarea
-                name="workDescription"
-                placeholder="Describe your responsibilities and achievements..."
-                required
-              ></textarea>
+              {workExperiences.map((work, index) => (
+                <div key={work.id}>
+                  <input
+                    name={`jobTitle${index}`}
+                    type="text"
+                    placeholder="Job Title"
+                    required
+                  />
+                  <input
+                    name={`company${index}`}
+                    type="text"
+                    placeholder="Company Name"
+                    required
+                  />
+                  <input
+                    name={`workDates${index}`}
+                    type="text"
+                    placeholder="Employment Dates"
+                    required
+                  />
+                  <textarea
+                    name={`workDescription${index}`}
+                    defaultValue="As a [Job Title] at [Company Name] ([Month, Year] - [Month, Year]), I executed [specific tasks/projects], improved productivity using [specific software/tools], and collaborated with teams. Key achievements include leading [specific project] and enhancing [specific metric] by [percentage or measurable outcome]. My skills include [relevant software/tools], strong analytical abilities, and effective communication."
+                    required
+                  ></textarea>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addWorkExperience}
+                className="form-button"
+              >
+                + Add Work Experience
+              </button>
 
               <h3>Education</h3>
-              <input name="degree" type="text" placeholder="Degree" required />
-              <input
-                name="school"
-                type="text"
-                placeholder="School/University"
-                required
-              />
-              <input
-                name="eduDates"
-                type="text"
-                placeholder="Education Dates"
-                required
-              />
-              <textarea
-                name="eduDescription"
-                placeholder="Key learnings and projects completed..."
-                required
-              ></textarea>
+              {educations.map((edu, index) => (
+                <div key={edu.id}>
+                  <input
+                    name={`degree${index}`}
+                    type="text"
+                    placeholder="Degree"
+                    required
+                  />
+                  <input
+                    name={`school${index}`}
+                    type="text"
+                    placeholder="School/University"
+                    required
+                  />
+                  <input
+                    name={`eduDates${index}`}
+                    type="text"
+                    placeholder="Education Dates"
+                    required
+                  />
+                  <textarea
+                    name={`eduDescription${index}`}
+                    defaultValue="I earned a [Degree] in [Field of Study] from [University Name] in [Location] ([Month, Year] - [Month, Year]). I maintained a [GPA/Grade] of [specific number/percentage], completed coursework in [specific subjects], and participated in [clubs/organizations]. I conducted research on [specific topics] and gained hands-on experience through [internships/practical training]. I received [awards/scholarships] in recognition of my academic excellence."
+                    required
+                  ></textarea>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addEducation}
+                className="form-button"
+              >
+                + Add Education
+              </button>
 
               <h3>Skills</h3>
               <input
